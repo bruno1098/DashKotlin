@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "213428426386",
+    "firebase_url": "https://dashkt-5-default-rtdb.firebaseio.com",
+    "project_id": "dashkt-5",
+    "storage_bucket": "dashkt-5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213428426386:android:0fd14e04f9e7d4325eb84b",
+        "android_client_info": {
+          "package_name": "br.com.dashboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo8i05sj9S_3ZOfOeDD9B7tVpPrT7s3v8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

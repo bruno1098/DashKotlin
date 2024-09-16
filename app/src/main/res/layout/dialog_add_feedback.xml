@@ -1,0 +1,28 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <!-- Campo para inserir o feedback -->
+    <EditText
+        android:id="@+id/editTextFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Escreva seu feedback"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="12dp"
+        android:textColor="#333333" />
+
+    <!-- Spinner para selecionar o rating -->
+    <Spinner
+        android:id="@+id/spinnerRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/ratings"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_background"
+        android:padding="12dp" />
+</LinearLayout>

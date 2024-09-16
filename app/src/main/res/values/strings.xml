@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Dasboard</string>
+    <string-array name="ratings">
+        <item>Bom</item>
+        <item>Ruim</item>
+        <item>Neutro</item>
+    </string-array>
+
+</resources>
