@@ -7,6 +7,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -14,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var btnLogin: Button
-    private lateinit var btnRegister: Button
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,24 +26,18 @@ class LoginActivity : AppCompatActivity() {
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
         btnLogin = findViewById(R.id.btnLogin)
-        btnRegister = findViewById(R.id.btnRegister)
+        preferencesManager = PreferencesManager(applicationContext)
 
         database = FirebaseDatabase.getInstance().getReference("usuario")
 
         btnLogin.setOnClickListener {
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
-
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 login(email, password)
             } else {
                 Toast.makeText(this, "Por favor, preencha todos os campos!", Toast.LENGTH_SHORT).show()
             }
-        }
-
-        btnRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -54,6 +51,11 @@ class LoginActivity : AppCompatActivity() {
 
                         if (storedPassword != null && storedPassword == password) {
                             Toast.makeText(this@LoginActivity, "Login feito", Toast.LENGTH_SHORT).show()
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                preferencesManager.saveUserName(username ?: "Usuário")
+                            }
+
                             val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
                             intent.putExtra("userName", username)
                             startActivity(intent)

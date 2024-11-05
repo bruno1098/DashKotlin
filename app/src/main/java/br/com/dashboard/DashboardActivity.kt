@@ -13,11 +13,14 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.charts.*
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.google.firebase.database.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,34 +32,32 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var feedbackIds: MutableList<String>
     private lateinit var btnAddFeedback: Button
     private lateinit var textViewWelcome: TextView
+    private lateinit var preferencesManager: PreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-
 
         listView = findViewById(R.id.dashboardListView)
         btnAddFeedback = findViewById(R.id.btnAddFeedback)
         textViewWelcome = findViewById(R.id.textViewWelcome)
         dataList = mutableListOf()
         feedbackIds = mutableListOf()
+        preferencesManager = PreferencesManager(applicationContext)
 
-
-        val userName = intent.getStringExtra("userName")
-        textViewWelcome.text = "Olá, $userName"
-
+        lifecycleScope.launch {
+            val userName = preferencesManager.userNameFlow.first() ?: "Usuário"
+            textViewWelcome.text = "Olá, $userName"
+        }
 
         database = FirebaseDatabase.getInstance().getReference("feedbacks")
 
-
         buscarFeedbacksNoFirebase()
-
 
         btnAddFeedback.setOnClickListener {
             mostrarFeedbackDialog()
         }
     }
-
     private fun mostrarFeedbackDialog() {
 
         val builder = AlertDialog.Builder(this)
